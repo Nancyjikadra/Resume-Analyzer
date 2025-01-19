@@ -1,98 +1,93 @@
-# Generative AI-Powered Resume Analyzer
+# Resume Analyzer
 
-## 📖 About the Project
-The Resume Analyzer is a Python-based application that uses Generative AI and Natural Language Processing (NLP) to automate resume screening. It extracts essential information, scores resumes based on AI/ML and Generative AI expertise, and outputs results in a structured Excel file.
+This project provides a tool to process multiple resumes (in PDF format) and extract relevant information, such as contact details, education, skills, and experience scores. The tool uses regular expressions to extract specific patterns from the resumes and calculates a total score based on various criteria.
 
-### Key Features
-- **Resume Parsing**: Extracts key details such as Name, Contact Information, Education, Key Skills, and more.
-- **Experience Scoring**: Assigns scores for AI/ML and Generative AI expertise based on resume content.
-- **Batch Processing**: Processes up to 100 resumes in a single batch.
-- **Excel Output**: Generates a neatly formatted Excel file summarizing the analysis.
+## Requirements
 
----
+Before running the code, ensure you have the following installed:
 
-## 🛠 Installation
+- Python 3.x
+- Required Python libraries:
+  - `os`
+  - `re`
+  - `pandas`
+  - `PyPDF2`
+  - `pathlib`
+  - `tqdm`
+  
+You can install the necessary libraries using `pip`:
 
-### Prerequisites
-- Python 3.8 or higher
-- Required Python packages
-
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone <repository_url>
-   cd <repository_directory>
-   ```
-
-2. Install the required dependencies:
-   ```bash
-   pip install pandas openpyxl PyPDF2 openai tqdm
-   ```
-
-3. Download the `en_core_web_sm` model for spaCy:
-   ```bash
-   python -m spacy download en_core_web_sm
-   ```
-
----
-
-## 🚀 Usage
-
-### Input
-- Place the resumes (PDF format) in a folder named `resumes` within the project directory.
-
-### Running the Application
-1. Run the main script:
-   ```bash
-   python main.py
-   ```
-
-2. The results will be saved to an Excel file named `resume_analysis_results.xlsx` in the project directory.
-
----
-
-## 🧩 Code Overview
-
-### Main Components
-1. **Resume Parsing**:
-   - Extracts text from PDF resumes using `PyPDF2`.
-   - Identifies contact details, education, and skills using regex and NLP.
-
-2. **Experience Scoring**:
-   - Assigns scores for Generative AI and AI/ML expertise based on predefined keywords.
-   - Calculates an overall score using a weighted scoring mechanism.
-
-3. **Batch Processing**:
-   - Handles multiple resumes efficiently using multithreading.
-
-4. **Excel Output**:
-   - Saves results to an Excel file with auto-adjusted column widths for better readability.
-
----
-
-## 📂 Folder Structure
-```
-project_directory/
-├── resumes/                      # Folder containing input PDF resumes
-├── main.py                       # Main script to run the analyzer
-├── resume_processing.log         # Log file for tracking errors and progress
-├── resume_analysis_results.xlsx  # Output Excel file
+```bash
+pip install pandas PyPDF2 tqdm
 ```
 
----
+## Prerequisites
 
-## 📊 Example Output
-The generated Excel file contains the following columns:
-- **Name**: Extracted from the file name.
-- **Contact Details**: Includes email, phone, LinkedIn, GitHub, and portfolio links.
-- **University, Year of Study, Course, Discipline, CGPA/Percentage**: Education details.
-- **Key Skills**: Identified technical skills.
-- **Gen AI Experience Score**: Score for Generative AI expertise (1-3).
-- **AI/ML Experience Score**: Score for AI/ML expertise (1-3).
-- **Supporting Information**: Certifications, internships, and projects.
-- **Overall Score**: Calculated based on extracted data.
+1. **Input Folder**: Create a folder named `resumes` in the same directory where the script is located. Place all your resume PDF files in this folder.
+   
+2. **Output Folder**: The script will automatically create an `output` folder to save the results in an Excel file named `resume_analysis.xlsx`.
 
----
+## How to Use
 
-## 🛡 License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+1. Place your resume PDFs in the `resumes` folder.
+2. Run the script using the following command:
+
+```bash
+python Resume_Analyzer.py
+```
+
+3. The script will process all the resumes in the `resumes` folder, extract the relevant details, calculate scores, and save the results in an Excel file (`resume_analysis.xlsx`) inside the `output` folder.
+
+### Input Folder Structure
+
+```
+/project-folder
+    /resumes
+        resume1.pdf
+        resume2.pdf
+        resume3.pdf
+        ...
+    /output
+        resume_analysis.xlsx
+    batch_resume_parser.py
+```
+
+## How It Works
+
+The script performs the following tasks:
+
+1. **Extract Text from PDFs**: It uses `PyPDF2` to extract text from each resume.
+2. **Parse Contact Details**: The script identifies contact information such as email, phone number, etc.
+3. **Extract Education Details**: It identifies the university, course, discipline, and grade (CGPA/Percentage).
+4. **Identify Skills**: The script identifies key skills such as AI/ML, Gen AI, and general programming skills.
+5. **Experience Scoring**: The script calculates experience scores based on the number of relevant keywords found in the resume.
+6. **Supporting Information**: The script extracts additional information such as certifications, internships, and projects.
+7. **Score Calculation**: It calculates a total score based on education, skills, experience, and supporting information.
+8. **Save Results**: The results are saved in an Excel file (`resume_analysis.xlsx`), sorted by the total score.
+
+## Output
+
+The output will be an Excel file (`resume_analysis.xlsx`) containing the following columns:
+
+- `Name`: The name of the resume (derived from the filename).
+- `Contact Details`: Extracted contact information (email, phone, etc.).
+- `University`: Extracted university name.
+- `Year of Study`: Extracted year of study.
+- `Course`: Extracted course name.
+- `Discipline`: Extracted discipline.
+- `CGPA/Percentage`: Extracted CGPA or percentage.
+- `Key Skills`: List of extracted key skills.
+- `Gen AI Experience Score`: Score for Gen AI experience.
+- `AI/ML Experience Score`: Score for AI/ML experience.
+- `Supporting Information`: Extracted supporting information (certifications, internships, projects).
+- `Total Score`: The calculated total score based on the extracted information.
+
+## Notes
+
+- The script processes resumes in parallel for faster execution using `ThreadPoolExecutor`.
+- The resumes are sorted by their total score in descending order before being saved to the output file.
+- Ensure that the resumes are in PDF format and stored in the `resumes` folder.
+
+## License
+
+This project is licensed under the MIT License.
